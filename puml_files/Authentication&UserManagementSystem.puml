@@ -1,0 +1,70 @@
+@startuml 6
+title Authentication and User Management System
+
+!include rules.puml
+
+enum Role <<enumeration>> {
+    Student
+    Instructor
+    Admin
+}
+
+class LoginUI <<view>> {
+    + inputCredentials(email: String, password: String) : void
+    + login() : void
+}
+
+class RegisterUI <<view>> {
+    + inputUserInfo(name: String, email: String, phone: String) : void
+    + inputPassword(password: String) : void
+    + selectRole(role: Role) : void
+    + register() : void
+}
+
+class AuthenticationControl <<control>> {
+    + register(name: String, email: String, password: String, phone: String, role: Role) : void
+    + validateCredentials(email: String, password: String) : boolean
+    + createSession(userId: String) : String
+    + logout(userId: String) : void
+}
+
+class User <<model>> {
+    - userId : String
+    - name : String
+    - email : String
+    - password : String
+    - phoneNumber : String
+    - role : Role
+    - registrationDate : String
+    + authenticate(password: String) : boolean
+}
+
+class Student <<model>> {
+    - enrolledCourses : List<int>
+    - completedCourses : List<int>
+    + enrollCourse(courseId: int) : void
+    + completeCourse(courseId: int) : void
+}
+
+class Instructor <<model>> {
+    - createdCourses : List<int>
+    + createCourse(data: Map<String, Object>) : int
+}
+
+class Admin <<model>> {
+    ' Fields can be added as needed based on the placeholder in the image
+}
+
+' --- RELATIONSHIPS ---
+
+LoginUI --> AuthenticationControl
+RegisterUI --> AuthenticationControl
+AuthenticationControl --> User
+
+' Inheritance as marked by the red "extends" arrows
+User <|-- Student
+User <|-- Instructor
+User <|-- Admin
+Role -right..> User
+
+@enduml

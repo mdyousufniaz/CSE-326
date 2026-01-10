@@ -1,0 +1,73 @@
+@startuml 4
+title Course Browse & Enrollment
+
+!include rules.puml
+
+class CourseListUI <<view>> {
+    +displayAllCourses(courses: List<Course>) : void
+    +showSearchResults(courses: List<Course>) : void
+    +searchCourse(query: String) : void
+    +selectCourse(courseId: int) : void
+}
+
+class CourseDetailsUI <<view>> {
+    +showCourseDetails(course: Course) : void
+    +showSyllabus(sections: List<Section>) : void
+    +showReviews(reviews: List<Review>) : void
+    +enrollCourse() : void
+    +processPayment() : void
+}
+
+class EnrolledCoursesUI <<view>> {
+    +showEnrolledCourses(courses: List<Course>) : void
+    +resumeCourse(courseId: int) : void
+}
+
+class CourseControl <<control>> {
+    +retrieveAllCourses() : List<Course>
+    +retrieveCourseDetails(courseId: int) : Course
+    +searchCourses(query: String) : List<Course>
+    +processEnrollment(studentId: int, courseId: int) : boolean
+    +processPayment(paymentData: Map) : boolean
+    +getEnrolledCourses(studentId: int) : List<Course>
+}
+
+class Course <<model>> {
+    -courseId : int
+    -title : String
+    -description : String
+    -instructorId : int
+    -price : double
+    -isFree : boolean
+    -thumbnail : String
+    -createdDate : String
+    -isPublished : boolean
+    +getCourseInfo() : Map
+    +publishCourse() : void
+}
+
+class Enrollment <<model>> {
+    -enrollmentId : int
+    -studentId : int
+    -courseId : int
+    -enrollmentDate : String
+    +createEnrollment(data: Map) : boolean
+}
+
+class Payment <<model>> {
+    -paymentId : int
+    -amount : double
+    -studentId : int
+    -courseId : int
+}
+
+' Relationships based on the arrows in the image
+CourseListUI --> CourseControl
+CourseDetailsUI --> CourseControl
+EnrolledCoursesUI --> CourseControl
+
+CourseControl --> Course
+CourseControl --> Enrollment
+CourseControl --> Payment
+
+@enduml

@@ -1,0 +1,129 @@
+@startuml 5
+title Course Management and Enrollment System
+
+!include rules.puml
+
+skinparam class {
+    BackgroundColor<<abstract view>> Khaki
+}
+
+abstract class UploadContentUI <<abstract view>> {
+    # selectedFile: File
+    # metadata: Map<String, Object>
+    # downloadAllowed: boolean
+    + selectFile(file: File) : void
+    + fillMetadata(data: Map<String, Object>) : void
+    + setDownloadPermission(allowed: boolean) : void
+    + upload() : void
+    + showConfirmation() : void
+    + validateFile(file: File) : boolean
+}
+
+class UploadVideoUI <<view>> {
+    + previewVideo() : void
+    + selectSubtitleFile(file: File) : void
+    # validateFile(file: File) : boolean
+}
+
+class UploadMaterialUI <<view>> {
+    + displayMaterialURL() : void
+    # validateFile(file: File) : boolean
+}
+
+class CreateCourseUI <<view>> {
+    + fillCourseInformation(data: Map<String, Object>) : void
+    + previewCourse() : void
+    + editDetails() : void
+    + submitCourse() : void
+    + createStructure() : void
+    + publishCourse() : void
+}
+
+class ContentManager <<control>> {
+    + processContentUpload(file: File, metadata: Map, type: String) : int
+    + validateFileType(file: File, allowedTypes: List<String>) : boolean
+    + generateThumbnail(file: File) : String
+    + saveToDatabase(content: Content) : void
+    + fetchContentFromDB(contentId: String) : Content
+    + updateContentMetadata(id: String, data: Map) : boolean
+    + deleteContent(contentId: int) : boolean
+}
+
+class VideoUploadManager <<control>> {
+    + processVideoUpload(videoFile: File, metadata: Map) : String
+    + generateThumbnail(videoFile: File) : String
+    + generateSubtitle(subtitleFile: File) : void
+    + createQualityVersions(videoFile: File) : List<String>
+}
+
+class MaterialUploadManager <<control>> {
+    + processMaterialUpload(file: File, details: String) : int
+    + generatePreview(file: File) : String
+    + validateDocumentFormat(file: File) : boolean
+}
+
+class CourseManager <<control>> {
+    + createCourse(courseData: Map) : int
+    + validateCourseInfo(data: Map) : boolean
+    + generateCourseId() : String
+    + createCourseStructure(sections: List) : void
+    + saveCourseStructure(courseId: String, structure: List<Section>) : void
+    + publishCourse(courseId: String) : void
+    + generateCourseURL(courseId: String) : String
+    + sendConfirmation(courseId: String) : void
+    + getCourseOverview(courseId: String) : Course
+}
+
+class Course <<model>> {
+    - courseId : String
+    - title : String
+    - instructorId : String
+    - courseURL: String
+    - sections: List<Section>
+    + saveCourses(data: Map) : void
+    + getCourseStructure() : List<Section>
+}
+
+class Section <<model>> {
+    - sectionId: String
+    - sectionName: String
+    - courseId: String
+    + createSection(name: String, courseId: String) : void
+}
+
+class Content <<model>> {
+    - contentId: String
+    - contentType: String
+    - contentTitle: String
+    - contentURL: String
+    - contentFileType: String
+    - downloadAllowed: boolean
+}
+
+class Material <<model>> {
+    + saveMaterial(data: Map) : void
+}
+
+class Video <<model>> {
+    + saveVideo(videoData: Map) : void
+}
+
+UploadContentUI <|-- UploadVideoUI
+UploadContentUI <|-- UploadMaterialUI
+UploadVideoUI -[hidden]down-> CreateCourseUI
+
+CreateCourseUI -right--> CourseManager
+
+ContentManager <|-- VideoUploadManager
+ContentManager <|-- MaterialUploadManager
+
+VideoUploadManager --> Content
+MaterialUploadManager --> Content
+
+Course "1" *-- "*" Section
+Section o-- Content
+
+Content <|-- Material
+Content <|-- Video
+
+@enduml

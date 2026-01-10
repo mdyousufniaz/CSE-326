@@ -1,0 +1,100 @@
+@startuml 3
+title Review and Rating System
+
+!include rules.puml
+left to right direction
+
+enum ModerationStatus <<enumeration>> {
+    PENDING,
+    APPROVE,
+    REJECTED
+}
+
+class WriteReviewUI <<view>> {
+    +selectRatings(stars: int) : void
+    +writeReviewText(text: String) : void
+    +submitReview() : void
+    +reportReview(reviewId: String) : void
+    +writeReason(reason: String) : void
+}
+
+class ViewReviewsUI <<view>> {
+    +displayAllReviews(reviews: List<Review>) : void
+    +showCourseRating(rating: double) : void
+    +readReview(reviewId: String) : void
+    +viewInstructorReply(reviewId: String) : void
+}
+
+class InstructorReviewUI <<view>> {
+    +viewReviewsForCourse(courseId: String) : void
+    +selectReview(reviewId: String) : void
+    +writeReply(reply: String) : void
+    +submitReply() : void
+}
+
+class AdminModerationUI <<view>> {
+    +viewModerationQueue() : void
+    +selectReview(reviewId: String): void
+    +approveReview(reviewId: String) : void
+    +rejectReview(reviewId: String) : void
+}
+
+class ReviewManager <<control>> {
+    +createReview(studentId: String, courseId: String, rating: double, text: String) : String
+    +calculateRiskScore(review: Review) : int
+    +getModerationStatus(review: Review) : ModerationStatus
+    +autoApproveReview(reviewId: String) : void
+    +autoRejectReview(reviewId: String) : void
+    +sendToAdminQueue(reviewId: String) : void
+    +getReviewsByCourse(courseId: String) : List<Review>
+    +saveReply(reviewId: String, reply: String) : void
+}
+
+class ModerationQueue <<control>> {
+    +getTopReview() : Review
+    +approveReview(reviewId: String) : void
+    +rejectReview(reviewId: String) : void
+    +checkQueueEmpty() : boolean
+}
+
+class Review <<model>> {
+    -reviewId: String
+    -studentId: String
+    -courseId: String
+    -rating: double
+    -reviewText: String
+    -reviewDate: String
+    -moderationStatus: ModerationStatus
+    -isPublished: boolean
+    +createReview(data: Map) : boolean
+}
+
+class Reply <<model>> {
+    -replyId: String
+    -reviewId: String
+    -instructorId: String
+    -replyText: String
+    -replyDate: String
+}
+
+class Report <<model>> {
+    -reportId: String
+    -reviewId: String
+    -reporterId: String
+    -reason: String
+    -reportDate: String
+}
+
+' Relationships
+WriteReviewUI --> ReviewManager
+ViewReviewsUI --> ReviewManager
+InstructorReviewUI --> ReviewManager
+AdminModerationUI --> ModerationQueue
+ReviewManager --> Review
+ReviewManager --> Reply
+ReviewManager --> Report
+Review "1" -- "0..1" Reply
+
+ModerationStatus -right..> Review
+
+@enduml
