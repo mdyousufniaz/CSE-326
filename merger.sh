@@ -1,24 +1,29 @@
 #!/bin/bash
 
+# Configuration
 search_dir="out/puml_files"
-temp_dir="temp_pdfs"
-mkdir -p "$temp_dir"
+output_dir="pdf_files"
 
-# 1. Get the sorted files
-mapfile -t svg_files < <(find "$search_dir" -type f -name "*.svg" ! -name "0.svg" | \
-    awk -F/ '{print $NF, $0}' | \
-    sort -V | \
-    cut -d' ' -f2-)
+# Create the output directory
+mkdir -p "$output_dir"
 
-pdf_list=()
+# 1. Get the files
+# This find command will look into subdirectories
+mapfile -t svg_files < <(find "$search_dir" -type f -name "*.svg" ! -name "0.svg" | sort -V)
 
-for i in "${!svg_files[@]}"; do
-    input_svg="${svg_files[$i]}"
-    abs_svg_path=$(realpath "$input_svg")
-    output_pdf="$temp_dir/page_$i.pdf"
+echo "--- Starting Parent-Folder Named PDF Conversion ---"
+
+for input_svg in "${svg_files[@]}"; do
+    # 1. Get the Parent Directory Name (e.g., Review&RatingSystem)
+    parent_dir_name=$(basename "$(dirname "$input_svg")")
     
-    # Create a temporary HTML wrapper with Landscape and Centering logic
-    tmp_html="$temp_dir/temp_$i.html"
+    # 2. Construct the output path using the folder name
+    output_pdf="$output_dir/$parent_dir_name.pdf"
+    
+    abs_svg_path=$(realpath "$input_svg")
+    tmp_html="$output_dir/tmp_render.html"
+    
+    # Create a temporary HTML wrapper for centering and landscape orientation
     echo "<html>
     <head>
         <style>
@@ -29,15 +34,15 @@ for i in "${!svg_files[@]}"; do
             body { 
                 margin: 0; 
                 display: flex; 
-                justify-content: center; /* Center horizontally */
-                align-items: center;     /* Center vertically */
-                height: 100vh;           /* Take full height of page */
+                justify-content: center; 
+                align-items: center;     
+                height: 100vh;           
                 background: white;
             }
             img { 
-                max-width: 95%;          /* Leave a tiny 5% safety margin */
+                max-width: 95%;          
                 max-height: 95%; 
-                object-fit: contain;     /* Keep aspect ratio */
+                object-fit: contain;     
             }
         </style>
     </head>
@@ -46,22 +51,14 @@ for i in "${!svg_files[@]}"; do
     </body>
     </html>" > "$tmp_html"
 
-    echo "Processing (Landscape + Centered): $input_svg"
+    echo "Converting: $input_svg -> $output_pdf"
     
-    # Print to PDF
-    google-chrome --headless --disable-gpu --print-to-pdf="$output_pdf" --no-pdf-header-footer "$tmp_html"
+    # Print to PDF using Headless Chrome
+    google-chrome --headless --disable-gpu --no-sandbox --print-to-pdf="$output_pdf" --no-pdf-header-footer "$tmp_html"
     
-    pdf_list+=("$output_pdf")
+    # Clean up the single temporary HTML file
+    rm "$tmp_html"
 done
 
-# 2. Merge with Ghostscript
-if [ ${#pdf_list[@]} -gt 0 ]; then
-    gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=combined.pdf "${pdf_list[@]}"
-    echo "---"
-    echo "Success! 'combined.pdf' created in landscape orientation."
-else
-    echo "No files found."
-fi
-
-# Clean up
-rm -rf "$temp_dir"
+echo "---"
+echo "Success! PDFs are named after their parent folders in '$output_dir'."

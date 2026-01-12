@@ -1,0 +1,36 @@
+name: Send PDFs to Telegram
+
+on:
+  push:
+    branches:
+      - 'Presentation-2' # Only triggers when you push to this branch
+  workflow_dispatch:      # Allows you to click a "Run" button manually
+
+jobs:
+  convert-and-send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Run Conversion Script
+        run: |
+          chmod +x ./merger.sh
+          ./merger.sh
+        # Replace "your_script_name.sh" with your actual file name
+
+      - name: Upload to Telegram
+        env:
+          TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          # Loop through the pdf_files folder and send each one
+          for pdf in pdf_files/*.pdf; do
+            echo "Sending $pdf..."
+            curl -F chat_id=$CHAT_ID -F document=@"$pdf" \
+            -F caption="✅ New Diagram: $(basename "$pdf")" \
+            https://api.telegram.org/bot$TOKEN/sendDocument
+          done

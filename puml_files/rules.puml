@@ -4,6 +4,7 @@
 
 hide circle
 skinparam classAttributeIconSize 0
+skinparam titleFontSize 30
 
 skinparam class {
     BackgroundColor<<view>> SkyBlue

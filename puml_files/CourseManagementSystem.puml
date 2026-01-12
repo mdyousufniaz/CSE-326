@@ -2,6 +2,7 @@
 title Course Management and Enrollment System
 
 !include rules.puml
+skinparam titleFontSize 50
 
 skinparam class {
     BackgroundColor<<abstract view>> Khaki

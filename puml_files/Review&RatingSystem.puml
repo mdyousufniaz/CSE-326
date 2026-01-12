@@ -3,6 +3,7 @@ title Review and Rating System
 
 !include rules.puml
 left to right direction
+skinparam titleFontSize 50
 
 enum ModerationStatus <<enumeration>> {
     PENDING,
