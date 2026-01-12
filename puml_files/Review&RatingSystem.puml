@@ -1,5 +1,5 @@
 @startuml 3
-title Review and Rating System
+title Review and Rating System \n\n
 
 !include rules.puml
 left to right direction

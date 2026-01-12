@@ -1,5 +1,5 @@
 @startuml 6
-title Authentication and User Management System
+title Authentication and User Management System \n\n
 
 !include rules.puml
 

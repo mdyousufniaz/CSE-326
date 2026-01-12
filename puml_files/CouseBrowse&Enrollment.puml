@@ -1,5 +1,5 @@
 @startuml 4
-title Course Browse and Enrollment
+title Course Browse and Enrollment \n\n
 
 !include rules.puml
 
