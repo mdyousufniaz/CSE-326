@@ -1,5 +1,7 @@
 @startuml 0
 
+!define EMPTY_LINE <&transparent>
+
 hide circle
 skinparam classAttributeIconSize 0
 

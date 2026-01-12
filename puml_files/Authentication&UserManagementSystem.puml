@@ -10,11 +10,15 @@ enum Role <<enumeration>> {
 }
 
 class LoginUI <<view>> {
+    EMPTY_LINE
+    
     + inputCredentials(email: String, password: String) : void
     + login() : void
 }
 
 class RegisterUI <<view>> {
+    EMPTY_LINE
+    
     + inputUserInfo(name: String, email: String, phone: String) : void
     + inputPassword(password: String) : void
     + selectRole(role: Role) : void
@@ -22,6 +26,8 @@ class RegisterUI <<view>> {
 }
 
 class AuthenticationControl <<control>> {
+    EMPTY_LINE
+    
     + register(name: String, email: String, password: String, phone: String, role: Role) : void
     + validateCredentials(email: String, password: String) : boolean
     + createSession(userId: String) : String
@@ -40,19 +46,21 @@ class User <<model>> {
 }
 
 class Student <<model>> {
-    - enrolledCourses : List<int>
-    - completedCourses : List<int>
-    + enrollCourse(courseId: int) : void
-    + completeCourse(courseId: int) : void
+    - enrolledCourseIds : List<String>
+    - completedCourseIds : List<String>
+    + enrollCourse(courseId: String) : void
+    + completeCourse(courseId: String) : void
 }
 
 class Instructor <<model>> {
-    - createdCourses : List<int>
-    + createCourse(data: Map<String, Object>) : int
+    - createdCourseIds : List<String>
+    + createCourse(data: Map<String, Object>) : String
 }
 
 class Admin <<model>> {
-    ' Fields can be added as needed based on the placeholder in the image
+    EMPTY_LINE
+    --
+    EMPTY_LINE
 }
 
 ' --- RELATIONSHIPS ---

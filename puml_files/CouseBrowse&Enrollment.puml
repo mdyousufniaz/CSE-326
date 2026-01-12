@@ -4,6 +4,8 @@ title Course Browse & Enrollment
 !include rules.puml
 
 class CourseListUI <<view>> {
+    EMPTY_LINE
+    
     +displayAllCourses(courses: List<Course>) : void
     +showSearchResults(courses: List<Course>) : void
     +searchCourse(query: String) : void
@@ -11,6 +13,8 @@ class CourseListUI <<view>> {
 }
 
 class CourseDetailsUI <<view>> {
+    EMPTY_LINE
+    
     +showCourseDetails(course: Course) : void
     +showSyllabus(sections: List<Section>) : void
     +showReviews(reviews: List<Review>) : void
@@ -19,16 +23,20 @@ class CourseDetailsUI <<view>> {
 }
 
 class EnrolledCoursesUI <<view>> {
+    EMPTY_LINE
+    
     +showEnrolledCourses(courses: List<Course>) : void
     +resumeCourse(courseId: int) : void
 }
 
 class CourseControl <<control>> {
+    EMPTY_LINE
+    
     +retrieveAllCourses() : List<Course>
     +retrieveCourseDetails(courseId: int) : Course
     +searchCourses(query: String) : List<Course>
     +processEnrollment(studentId: int, courseId: int) : boolean
-    +processPayment(paymentData: Map) : boolean
+    +processPayment(paymentData: Map<String, Object>) : boolean
     +getEnrolledCourses(studentId: int) : List<Course>
 }
 
@@ -39,10 +47,10 @@ class Course <<model>> {
     -instructorId : int
     -price : double
     -isFree : boolean
-    -thumbnail : String
+    -thumbnailId : int
     -createdDate : String
     -isPublished : boolean
-    +getCourseInfo() : Map
+    +getCourseInfo() : Map<String, Object>
     +publishCourse() : void
 }
 
@@ -51,7 +59,7 @@ class Enrollment <<model>> {
     -studentId : int
     -courseId : int
     -enrollmentDate : String
-    +createEnrollment(data: Map) : boolean
+    +createEnrollment(data: Map<String, Object>) : boolean
 }
 
 class Payment <<model>> {
@@ -59,6 +67,8 @@ class Payment <<model>> {
     -amount : double
     -studentId : int
     -courseId : int
+    --
+    EMPTY_LINE
 }
 
 ' Relationships based on the arrows in the image

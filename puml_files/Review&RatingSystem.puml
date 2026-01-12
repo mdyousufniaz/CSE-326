@@ -11,6 +11,8 @@ enum ModerationStatus <<enumeration>> {
 }
 
 class WriteReviewUI <<view>> {
+    EMPTY_LINE
+
     +selectRatings(stars: int) : void
     +writeReviewText(text: String) : void
     +submitReview() : void
@@ -19,6 +21,8 @@ class WriteReviewUI <<view>> {
 }
 
 class ViewReviewsUI <<view>> {
+    EMPTY_LINE
+
     +displayAllReviews(reviews: List<Review>) : void
     +showCourseRating(rating: double) : void
     +readReview(reviewId: String) : void
@@ -26,6 +30,8 @@ class ViewReviewsUI <<view>> {
 }
 
 class InstructorReviewUI <<view>> {
+    EMPTY_LINE
+
     +viewReviewsForCourse(courseId: String) : void
     +selectReview(reviewId: String) : void
     +writeReply(reply: String) : void
@@ -33,6 +39,8 @@ class InstructorReviewUI <<view>> {
 }
 
 class AdminModerationUI <<view>> {
+    EMPTY_LINE
+
     +viewModerationQueue() : void
     +selectReview(reviewId: String): void
     +approveReview(reviewId: String) : void
@@ -40,6 +48,8 @@ class AdminModerationUI <<view>> {
 }
 
 class ReviewManager <<control>> {
+    EMPTY_LINE
+    
     +createReview(studentId: String, courseId: String, rating: double, text: String) : String
     +calculateRiskScore(review: Review) : int
     +getModerationStatus(review: Review) : ModerationStatus
@@ -51,6 +61,8 @@ class ReviewManager <<control>> {
 }
 
 class ModerationQueue <<control>> {
+    EMPTY_LINE
+    
     +getTopReview() : Review
     +approveReview(reviewId: String) : void
     +rejectReview(reviewId: String) : void
@@ -66,7 +78,7 @@ class Review <<model>> {
     -reviewDate: String
     -moderationStatus: ModerationStatus
     -isPublished: boolean
-    +createReview(data: Map) : boolean
+    +createReview(data: Map<String, Object>) : boolean
 }
 
 class Reply <<model>> {
@@ -75,6 +87,8 @@ class Reply <<model>> {
     -instructorId: String
     -replyText: String
     -replyDate: String
+    --
+    EMPTY_LINE
 }
 
 class Report <<model>> {
@@ -83,6 +97,8 @@ class Report <<model>> {
     -reporterId: String
     -reason: String
     -reportDate: String
+    --
+    EMPTY_LINE
 }
 
 ' Relationships

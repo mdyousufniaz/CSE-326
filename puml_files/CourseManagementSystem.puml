@@ -20,17 +20,23 @@ abstract class UploadContentUI <<abstract view>> {
 }
 
 class UploadVideoUI <<view>> {
+    EMPTY_LINE
+    
     + previewVideo() : void
     + selectSubtitleFile(file: File) : void
     # validateFile(file: File) : boolean
 }
 
 class UploadMaterialUI <<view>> {
+    EMPTY_LINE
+    
     + displayMaterialURL() : void
     # validateFile(file: File) : boolean
 }
 
 class CreateCourseUI <<view>> {
+    EMPTY_LINE
+    
     + fillCourseInformation(data: Map<String, Object>) : void
     + previewCourse() : void
     + editDetails() : void
@@ -40,31 +46,39 @@ class CreateCourseUI <<view>> {
 }
 
 class ContentManager <<control>> {
-    + processContentUpload(file: File, metadata: Map, type: String) : int
+    EMPTY_LINE
+    
+    + processContentUpload(file: File, metadata: Map<String, Object>, type: String) : int
     + validateFileType(file: File, allowedTypes: List<String>) : boolean
     + generateThumbnail(file: File) : String
     + saveToDatabase(content: Content) : void
     + fetchContentFromDB(contentId: String) : Content
-    + updateContentMetadata(id: String, data: Map) : boolean
+    + updateContentMetadata(id: String, data: Map<String, Object>) : boolean
     + deleteContent(contentId: int) : boolean
 }
 
 class VideoUploadManager <<control>> {
-    + processVideoUpload(videoFile: File, metadata: Map) : String
+    EMPTY_LINE
+    
+    + processVideoUpload(videoFile: File, metadata: Map<String, Object>) : String
     + generateThumbnail(videoFile: File) : String
     + generateSubtitle(subtitleFile: File) : void
     + createQualityVersions(videoFile: File) : List<String>
 }
 
 class MaterialUploadManager <<control>> {
+    EMPTY_LINE
+    
     + processMaterialUpload(file: File, details: String) : int
     + generatePreview(file: File) : String
     + validateDocumentFormat(file: File) : boolean
 }
 
 class CourseManager <<control>> {
-    + createCourse(courseData: Map) : int
-    + validateCourseInfo(data: Map) : boolean
+    EMPTY_LINE
+    
+    + createCourse(courseData: Map<String, Object>) : String
+    + validateCourseInfo(data: Map<String, Object>) : boolean
     + generateCourseId() : String
     + createCourseStructure(sections: List) : void
     + saveCourseStructure(courseId: String, structure: List<Section>) : void
@@ -80,7 +94,7 @@ class Course <<model>> {
     - instructorId : String
     - courseURL: String
     - sections: List<Section>
-    + saveCourses(data: Map) : void
+    + saveCourses(data: Map<String, Object>) : void
     + getCourseStructure() : List<Section>
 }
 
@@ -98,14 +112,20 @@ class Content <<model>> {
     - contentURL: String
     - contentFileType: String
     - downloadAllowed: boolean
+    --
+    EMPTY_LINE
 }
 
 class Material <<model>> {
-    + saveMaterial(data: Map) : void
+    EMPTY_LINE
+    
+    + saveMaterial(data: Map<String, Object>) : void
 }
 
 class Video <<model>> {
-    + saveVideo(videoData: Map) : void
+    EMPTY_LINE
+    
+    + saveVideo(videoData: Map<String, Object>) : void
 }
 
 UploadContentUI <|-- UploadVideoUI
