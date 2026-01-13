@@ -1,5 +1,5 @@
 @startuml 5
-title Course Management and Enrollment System \n\n
+title Course Management System \n\n
 
 !include rules.puml
 skinparam titleFontSize 50
@@ -146,5 +146,8 @@ Section o-- Content
 
 Content <|-- Material
 Content <|-- Video
+
+ContentManager <-- UploadVideoUI
+ContentManager <-- UploadMaterialUI
 
 @enduml

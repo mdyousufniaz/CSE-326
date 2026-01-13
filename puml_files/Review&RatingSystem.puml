@@ -2,7 +2,7 @@
 title Review and Rating System \n\n
 
 !include rules.puml
-left to right direction
+
 skinparam titleFontSize 50
 
 enum ModerationStatus <<enumeration>> {
@@ -107,6 +107,7 @@ WriteReviewUI --> ReviewManager
 ViewReviewsUI --> ReviewManager
 InstructorReviewUI --> ReviewManager
 AdminModerationUI --> ModerationQueue
+ModerationQueue --> Review
 ReviewManager --> Review
 ReviewManager --> Reply
 ReviewManager --> Report
