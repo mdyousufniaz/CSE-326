@@ -1,0 +1,137 @@
+[
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6112535_7103.jpg",
+        "title": "The AI Engineer Course 2026: Complete AI Engineer Bootcamp",
+        "owner": "365 Careers",
+        "bestseller": true,
+        "rating_star": 4.6,
+        "total_ratings": "14,768",
+        "price": "$59.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6831187_5375_2.jpg",
+        "title": "Complete AI Automation And Agentic AI Bootcamp With n8n",
+        "owner": "KRISHAI Technologies Private Limited, Mayank Aggarwal",
+        "bestseller": true,
+        "rating_star": 4.5,
+        "total_ratings": "290",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6791359_66d8_2.jpg",
+        "title": "Intro to AI Agents and Agentic AI",
+        "owner": "365 Careers",
+        "bestseller": true,
+        "rating_star": 4.5,
+        "total_ratings": "11,303",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6860481_9bec_2.jpg",
+        "title": "AI for Cyber Security : Threat Detection, SOC Automation",
+        "owner": "Selfcode Academy",
+        "bestseller": true,
+        "rating_star": 4.6,
+        "total_ratings": "143",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6878463_8083.jpg",
+        "title": "AI-Driven Test Automation: Playwright, Selenium, LLMs & More",
+        "owner": "Karthik KK",
+        "bestseller": true,
+        "rating_star": 4.4,
+        "total_ratings": "113",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6789637_d297_3.jpg",
+        "title": "Business AI: ChatGPT, Microsoft Copilot, Claude & Perplexity",
+        "owner": "LearnersCare LLC",
+        "bestseller": true,
+        "rating_star": 4.6,
+        "total_ratings": "164",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/1990136_15e0_10.jpg",
+        "title": "Artificial Intelligence for Business + ChatGPT Prize [2026]",
+        "owner": "Hadelin de Ponteves, Kirill Eremenko, SuperDataScience Team, Ligency",
+        "bestseller": false,
+        "rating_star": 4.3,
+        "total_ratings": "4,945",
+        "price": "$74.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/2776760_f176_10.jpg",
+        "title": "100 Days of Code™: The Complete Python Pro Bootcamp",
+        "owner": "Dr. Angela Yu, Developer and Lead Instructor",
+        "bestseller": true,
+        "rating_star": 4.7,
+        "total_ratings": "408,757",
+        "price": "$64.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/567828_67d0.jpg",
+        "title": "The Complete Python Bootcamp From Zero to Hero in Python",
+        "owner": "Jose Portilla, Pierian Training",
+        "bestseller": false,
+        "rating_star": 4.6,
+        "total_ratings": "554,624",
+        "price": "$64.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6258083_9a52_3.jpg",
+        "title": "Complete Python with AI Skills to Get Your Dream IT Job",
+        "owner": "Imran Afzal",
+        "bestseller": true,
+        "rating_star": 4.7,
+        "total_ratings": "632",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/543600_64d1_4.jpg",
+        "title": "Automate the Boring Stuff with Python Programming",
+        "owner": "Al Sweigart",
+        "bestseller": false,
+        "rating_star": 4.6,
+        "total_ratings": "118,448",
+        "price": "$64.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/793796_0e89_4.jpg",
+        "title": "Microsoft Excel - Excel from Beginner to Advanced",
+        "owner": "Kyle Pew • 2,000,000+ Students, Office Newb",
+        "bestseller": true,
+        "rating_star": 4.7,
+        "total_ratings": "520,571",
+        "price": "$64.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6807031_7bbf_3.jpg",
+        "title": "EXCEL: Master Microsoft Excel from Basics to Advanced Excel",
+        "owner": "EXCEL: Microsoft Excel Basic to Advanced Excel",
+        "bestseller": false,
+        "rating_star": 4.5,
+        "total_ratings": "147",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6703559_2cfe.jpg",
+        "title": "Microsoft Excel Guide: Complete Excel - Beginner to Pro",
+        "owner": "Rajeswari G",
+        "bestseller": false,
+        "rating_star": 4.5,
+        "total_ratings": "120",
+        "price": "$19.99"
+    },
+    {
+        "image_link": "https://img-c.udemycdn.com/course/240x135/6907089_4ec3_3.jpg",
+        "title": "Excel with AI From Zero to Hero in Data Skills",
+        "owner": "Metla Sudha Sekhar",
+        "bestseller": false,
+        "rating_star": 4.7,
+        "total_ratings": "34",
+        "price": "$19.99"
+    }
+]
