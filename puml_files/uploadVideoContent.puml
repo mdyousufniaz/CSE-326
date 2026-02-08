@@ -1,0 +1,86 @@
+@startuml 2
+'--- Styling and Header ---
+title <size:32>**Upload Video Content**
+skinparam Style strictuml
+skinparam ParticipantPadding 40
+
+skinparam Participant {
+    BackgroundColor White
+    BorderColor Black
+}
+
+'--- Lifeline Definitions ---
+actor Instructor
+participant "<u>  :UploadVideoUI  </u>" as UI
+participant "<u>  :VideoUploadManager  </u>" as Manager
+participant "<u>  :Video  </u>" as Video
+participant "<u>  :Section  </u>" as Section
+
+'--- Diagram Flow ---
+activate Instructor 
+
+Instructor -> UI : uploadVideo(sectionId)
+activate UI
+Instructor -> UI : selectFile(videoFile)
+
+    ' Nested activation for validation
+    UI -> UI : validateFile(file)
+    activate UI
+    deactivate UI
+
+    alt#Gold #LightBlue file type valid
+        UI -->> Instructor : File accepted
+        ' Shifting the alt box right for clarity
+    else #Pink else] \t [invalid file type
+        UI -->> Instructor : Show error: unsupported format
+    end
+
+    Instructor -> UI : fillMetadata(videoData)
+    Instructor -> UI : setDownloadPermission(allowed)
+    Instructor -> UI : upload()
+
+    deactivate Instructor
+
+    UI -> Manager : processVideoUpload(file, metadata)
+    activate Manager
+        ' Sequential nested activations for video processing
+        Manager -> Manager : generateThumbnail(videofile)
+        activate Manager
+        deactivate Manager
+        
+        Manager -> Manager : generateSubtitle(videofile)
+        activate Manager
+        deactivate Manager
+        
+        Manager -> Manager : createQualityVersions(file)
+        activate Manager
+        deactivate Manager
+
+        ' Create Video Object
+        create Video
+        Manager -> Video : Video(videoData)
+        activate Video
+            Video -> Video : saveVideo()
+            activate Video
+            deactivate Video
+            Video -->> Manager : videoId, videoURL
+        deactivate Video
+
+        Manager -> Section : addContent(videoId, sectionId)
+        activate Section
+            Section -->> Manager : success
+        deactivate Section
+
+        Manager -->> UI : videoId, confirmation
+    deactivate Manager
+
+    activate Instructor
+    UI -->> Instructor : Video uploaded successfully!
+    
+    ' Final sequence from image
+    Instructor -> UI : previewVideo(videoId)
+    UI -->> Instructor : Display video preview
+deactivate UI
+
+deactivate Instructor
+@enduml

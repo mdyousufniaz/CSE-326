@@ -1,0 +1,91 @@
+@startuml 1
+'--- Styling and Header ---
+title <size:32>**Create Course & Organize Structure**
+skinparam Style strictuml
+skinparam ParticipantPadding 40
+
+' Styling for rectangular object boxes
+skinparam Participant {
+    BackgroundColor White
+    BorderColor Black
+}
+
+'--- Lifeline Definitions ---
+actor Instructor
+participant "<u>  :CreateCourseUI  </u>" as UI
+participant "<u>  :CourseManager  </u>" as Manager
+participant "<u>  :Course  </u>" as Course
+participant "<u>  :Section  </u>" as Section
+
+'--- Diagram Flow ---
+activate Instructor 
+
+Instructor -> UI : createNewCourse()
+activate UI
+Instructor -> UI : fillCourseInformation(data)
+
+    ' Nested activation for previewing
+    UI -> UI : previewCourse()
+    activate UI
+    deactivate UI
+
+    UI -> Manager : submitCourseInfo(data)
+    activate Manager
+        ' Validating and generating ID
+        Manager -> Manager : validateCourseInfo()
+        activate Manager
+        deactivate Manager
+    
+        
+        alt#Gold #LightBlue Information correct
+            Manager -->> UI : [Information correct]
+
+            Manager -> Manager : generateCourseId()
+            activate Manager
+            deactivate Manager
+        else #Pink else] \t  [information incorrect
+            Manager -->> UI : Show validation errors
+        end
+    deactivate Manager
+
+    Instructor -> UI : createStructure(courseId)
+    
+    ' Loop for adding sections
+    loop#GreenYellow #Khaki for each section to add
+        Instructor -> UI : enterSectionName(name)
+        UI -> Manager : createSection(name, courseId)
+        activate Manager
+            Manager -> Section : Section(data)
+            activate Section
+                Section -> Section : generateSectionId()
+                activate Section
+                deactivate Section
+                Section -->> Manager : sectionId
+            deactivate Section
+            
+            Manager -> Manager : addToStructure(sectionId)
+            activate Manager
+            deactivate Manager
+        deactivate Manager
+    end
+
+    Instructor -> UI : savestructure(courseId, sections)
+    UI -> Manager : saveCourseStructure(courseId, sections)
+    activate Manager
+        Manager -> Course : saveCourse(courseData)
+        activate Course
+            Course -->> Manager : success
+        deactivate Course
+        
+        Manager -> Manager : generateCourseURL(courseId)
+        activate Manager
+        deactivate Manager
+        
+        Manager -->> UI : courseURL, confirmation
+    deactivate Manager
+
+    UI -->> Instructor : Course created successfully!
+deactivate UI
+
+deactivate Instructor
+@enduml

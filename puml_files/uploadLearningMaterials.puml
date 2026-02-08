@@ -1,0 +1,82 @@
+@startuml 3
+title <size:32>**Upload Learning Materials**
+'--- Styling and Layout ---
+skinparam Style strictuml
+
+' Set the border and background
+skinparam Participant {
+    BackgroundColor White
+    BorderColor Black
+}
+
+'--- Lifeline Definitions with Underlines ---
+' Adding spaces around the text inside the <u> tags acts as horizontal padding
+actor Instructor
+participant "<u>  :UploadMaterialUI  </u>" as UI
+participant "<u>  :MaterialUploadManager  </u>" as Manager
+participant "<u>  :Material  </u>" as Material
+participant "<u>  :Section  </u>" as Section
+'--- Diagram Flow ---
+' Manual lifeline for Instructor
+activate Instructor 
+
+Instructor -> UI : uploadMaterial(sectionId)
+activate UI
+Instructor -> UI : selectFile(materialFile)
+
+    ' Nested activation for local validation
+    UI -> UI : validateFile(file)
+    activate UI
+    deactivate UI
+
+    alt#Gold #LightBlue file type valid
+        UI -->> Instructor : File accepted
+    else #Pink else] \t [invalid format
+        UI -->> Instructor : Show error: invalid file
+    end
+
+    Instructor -> UI : fillMaterialDetails(details)
+    Instructor -> UI : setDownloadPermission(allowed)
+    Instructor -> UI : upload()
+
+    deactivate Instructor
+
+    UI -> Manager : processMaterialUpload(file, details)
+    activate Manager
+        ' Nested activation for preview/URL generation
+        Manager -> Manager : generatePreview(file)
+        activate Manager
+        deactivate Manager
+        
+        Manager -> Manager : generateMaterialURL()
+        activate Manager
+        deactivate Manager
+
+        ' Create Material Object
+        create Material
+        Manager -> Material : Material(materialData)
+        activate Material
+            ' Nested activation for saving
+            Material -> Material : saveMaterial()
+            activate Material
+            deactivate Material
+            
+            Material -->> Manager : materialId, materialURL
+        deactivate Material
+
+        Manager -> Section : addContent(materialId, sectionId)
+        activate Section
+            Section -->> Manager : success
+        deactivate Section
+        deactivate Manager
+
+        Manager -->> UI : materialId, materialURL
+    deactivate UI
+
+    activate Instructor
+    UI -->> Instructor : Material uploaded successfully!
+    deactivate Instructor
+
+
+
+@enduml
