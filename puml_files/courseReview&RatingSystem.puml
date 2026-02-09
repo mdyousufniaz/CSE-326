@@ -1,0 +1,96 @@
+@startuml
+title <size:32>**Course Review & Rating System**
+
+skinparam Style strictuml
+skinparam ParticipantPadding 40
+
+skinparam Participant {
+    BackgroundColor White
+    BorderColor Black
+}
+
+actor Student
+participant "<u>:WriteReviewUI</u>" as UI
+participant "<u>:ReviewManager</u>" as Manager
+participant "<u>:ModerationQueue</u>" as Queue
+participant "<u>:Review</u>" as Review
+
+activate Student
+
+Student -> UI : writeReview(courseId)
+activate UI
+
+Student -> UI : selectRating(stars: 1-5)
+
+Student -> UI : writeReviewText(reviewText)
+
+Student -> UI : submitReview()
+
+UI -> Manager : createReview(studentId, courseId, rating, text)
+activate Manager
+
+Manager -> Review : Review(data)
+activate Review
+
+Review -> Review : generateReviewId() 
+activate Review
+deactivate Review
+
+Review -->> Manager : reviewId
+deactivate Review
+
+Manager -> Manager : proceedAutoModeration()
+activate Manager
+deactivate Manager
+
+Manager -> Manager : calculateRiskScore()
+activate Manager
+deactivate Manager
+
+alt#Gold #LightBlue Low Risk Score
+    
+    Manager -> Review : autoApproveReview(reviewId)
+    activate Review
+    Review -->> Manager : published
+    deactivate Review
+    
+    Manager -->> UI : Review published immediately!
+    UI -->> Student : Review published immediately!
+
+else #LightYellow Medium Risk Score
+    
+    Manager -> Queue : sendToAdminQueue(reviewId)
+    activate Queue
+    Queue -->> Manager : queued
+    deactivate Queue
+    
+    Manager -->> UI : Review pending admin approval
+    UI -->> Student : Review pending admin approval
+
+else #Pink High Risk Score
+    
+    Manager -> Review : autoRejectReview(reviewId)
+    activate Review
+    Review -->> Manager : rejected
+    deactivate Review
+    
+    Manager -->> UI : Review rejected (inappropriate content)
+    UI -->> Student : Review rejected (inappropriate content)
+
+end
+
+deactivate Manager
+
+Student -> UI : viewAllReviews(courseId)
+
+UI -> Manager : getReviewsByCourse(courseId)
+activate Manager
+Manager -->> UI : reviewList
+deactivate Manager
+
+UI -->> Student : Display all published reviews
+
+deactivate UI
+deactivate Student
+
+@enduml
